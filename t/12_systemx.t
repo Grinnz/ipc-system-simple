@@ -3,7 +3,7 @@ use strict;
 
 use IPC::System::Simple qw(system systemx capture capturex);
 use Config;
-use Test::More tests => 7;
+use Test::More qw(no_plan); # tests => 7;
 
 my $perl_path = $Config{perlpath};
 
@@ -31,6 +31,11 @@ eval {
     systemx($perl_path, "exiter.pl", 0);
 };
 is($@,"", "multi-arg systemx works");
+
+eval {
+    systemx($perl_path, "exiter.pl", undef);
+};
+is($@,"", "multi-arg systemx works; undefined argument handled properly");
 
 my $output_test = "$perl_path output.pl";
 
